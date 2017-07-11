@@ -208,22 +208,29 @@
     NSMutableArray *_additionalDumpOpeartions = ({
       NSMutableArray *array =  [NSMutableArray new];
 
+        
+        if (!_onlyBinaries)
+        {
 #ifdef DEBUG
-        for (Application *_application in self.watchOSApps) {
-            for (Extension *_extension in _application.extensions) {
-
+            for (Application *_application in self.watchOSApps) {
+                for (Extension *_extension in _application.extensions) {
+                    
+                    [array addObject:_extension.executable.dumpOperation];
+                }
+            }
+#endif
+            
+            
+            for (Framework *_framework in self.frameworks) {
+                [array addObject:_framework.executable.dumpOperation];
+            }
+            
+            for (Extension *_extension in self.extensions) {
                 [array addObject:_extension.executable.dumpOperation];
             }
-        }
-#endif
 
-        for (Framework *_framework in self.frameworks) {
-            [array addObject:_framework.executable.dumpOperation];
         }
 
-        for (Extension *_extension in self.extensions) {
-            [array addObject:_extension.executable.dumpOperation];
-        }
         array;
     });
 
@@ -277,20 +284,33 @@
     }
 
     if (!_onlyBinaries)
+    {
+        [[ClutchPrint sharedInstance] printVerbose:@"Add main zip operation to dump queue"];
         [_dumpQueue addOperation:_mainZipOperation];
-
+    }
+    
+    [[ClutchPrint sharedInstance] printVerbose:@"Add dump operation to dump queue"];
     [_dumpQueue addOperation:_dumpOperation];
 
-    for (NSOperation *operation in _additionalDumpOpeartions) {
+    for (NSOperation *operation in _additionalDumpOpeartions)
+    {
+        [[ClutchPrint sharedInstance] printVerbose:@"Add additional dump operation to dump queue"];
+
         [_dumpQueue addOperation:operation];
     }
 
-    for (NSOperation *operation in _additionalZipOpeartions) {
+    for (NSOperation *operation in _additionalZipOpeartions)
+    {
+        [[ClutchPrint sharedInstance] printVerbose:@"Add additional zip operation to dump queue"];
         [_dumpQueue addOperation:operation];
     }
 
+    [[ClutchPrint sharedInstance] printVerbose:@"Add finalize dump operation to dump queue"];
     [_dumpQueue addOperation:_finalizeDumpOperation];
+    
     BOOL failed = NO;
+
+    [[ClutchPrint sharedInstance] printVerbose:@"%d operations in dump queue", _dumpQueue.operationCount];
 
     while (_dumpQueue.operationCount > 0) {
         for (NSOperation *op in _dumpQueue.operations) {

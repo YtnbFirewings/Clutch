@@ -126,6 +126,9 @@
         if (numHeaders == 0) {
             [[ClutchPrint sharedInstance] print:@"No compatible architecture found"];
         }
+        else{
+            [[ClutchPrint sharedInstance] print:@"%u compatible architecture found", numHeaders];
+        }
 
         uint32_t dumpCount = 0;
 

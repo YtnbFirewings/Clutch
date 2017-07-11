@@ -73,6 +73,10 @@
 - (void)main {
     @try {
         
+        
+        
+        [[ClutchPrint sharedInstance] printColor:ClutchPrinterColorPink format:@"Start main zip operation"];
+
         NSString *_zipFilename = _application.zipFilename, *_localPrefix = _application.zipPrefix;
         
         [[ClutchPrint sharedInstance] print:@"Zipping %@",_application.bundleURL.lastPathComponent];

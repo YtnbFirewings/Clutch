@@ -22,8 +22,13 @@
 }
 
 - (BOOL)dumpBinary {
+    
+    
+    
     __block BOOL dumpResult;
     NSString *binaryDumpPath = [_originalBinary.workingPath stringByAppendingPathComponent:_originalBinary.binaryPath.lastPathComponent];
+
+    [[ClutchPrint sharedInstance] printDeveloper: @"Try dump binary for file %@", binaryDumpPath];
     
     NSFileHandle *newFileHandle = [[NSFileHandle alloc]initWithFileDescriptor:fileno(fopen(binaryDumpPath.UTF8String, "r+"))];
     
@@ -66,6 +71,8 @@
         
         uint32_t cmd = [newFileHandle intAtOffset:newFileHandle.offsetInFile];
         uint32_t size = [newFileHandle intAtOffset:newFileHandle.offsetInFile+sizeof(uint32_t)];
+        
+        [[ClutchPrint sharedInstance] printDeveloper: @"Number: %d CMD: %u  size %u", i, cmd, size];
         
         switch (cmd) {
             case LC_CODE_SIGNATURE: {

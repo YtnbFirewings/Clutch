@@ -83,6 +83,10 @@ extern struct timeval gStart;
 - (void)main {
     @try {
 
+        
+        [[ClutchPrint sharedInstance] printColor:ClutchPrinterColorPink format:@"Start finalize dump operation"];
+        
+        
         if (_onlyBinaries) {
 
             NSDirectoryEnumerator *dirEnumerator = [NSFileManager.defaultManager enumeratorAtURL:[NSURL fileURLWithPath:_application.workingPath] includingPropertiesForKeys:@[NSURLNameKey,NSURLIsDirectoryKey] options:0 errorHandler:^BOOL(NSURL *url, NSError *error) {
