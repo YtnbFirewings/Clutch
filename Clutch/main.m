@@ -69,12 +69,12 @@ int main (int argc, const char * argv[])
             return 0;
         }
 
-        /*if (SYSTEM_VERSION_LESS_THAN(NSFoundationVersionNumber_iOS_8_0))
+        if (SYSTEM_VERSION_LESS_THAN(NSFoundationVersionNumber_iOS_8_0))
         {
             [[ClutchPrint sharedInstance] print:@"You need iOS 8.0+ to use Clutch %@", CLUTCH_VERSION];
 
             return 0;
-        }*/
+        }
         
         [[ClutchPrint sharedInstance] setColorLevel:ClutchPrinterColorLevelFull];
         [[ClutchPrint sharedInstance] setVerboseLevel:ClutchPrinterVerboseLevelNone];
