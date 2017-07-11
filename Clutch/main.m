@@ -169,6 +169,7 @@ int main (int argc, const char * argv[])
                         break;
                     }
                     case ClutchCommandOptionBinaryDump:
+			_selectedOption = @"binary-dump";
                     case ClutchCommandOptionDump:
                     {
                         NSDictionary *_installedApps = [[[ApplicationsManager alloc] init] _allCachedApplications];
